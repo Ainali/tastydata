@@ -12,7 +12,10 @@ The menues are using [qlabel](https://github.com/googleknowledge/qlabel/) for ge
 ## How to use the menu
 Go to http://aina.li/menu and click on a meal to see the menu for that meal. Chang language with the language selector. Click on an ingredient to see an image of it.
 
-## Licence
+## Adding data and generating menues
+Is explained in [this readme](/generator/README.md).
+
+## License
 The project is licensed under Apache License 2.0.
 
 ## Attribution
