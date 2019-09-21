@@ -31,5 +31,8 @@ Import tsv2json
 generator.run(u'demodata.json', u'demomatches.json', u'../test')
 ```
 
-## Debugging
+### Result
+The resulting files will be generated in the folder specified in the generator command (it does not have to be test). It will contain an index html file and css and one html and css file for each menu with name starting at 1 and increasing (example: 1.html and 1.css).
+
+### Debugging
 After running the menu generator, a file matchinfo.csv will be generated with all the courses and ingredients that could not be matched with anything in demomatches.tsv. 
