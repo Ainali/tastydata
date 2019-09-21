@@ -1,11 +1,35 @@
-#generator
+## How to generate the pages
 
-Used to generate the menus and the json sources. Two files are needed, demodata.tsv with the actual menus and demomatches.tsv that matches the words used in the demodata to Wikidata items. 
+An automatic way is used to generate the json sources for the menus and the menues themselves. Two files are needed, demodata.tsv with the actual menus and demomatches.tsv that matches the words used in the demodata to Wikidata items. 
 
-The menus must live in the same directory
-as `index.css`, `main.css`, `menu.js`, `code2langQ.json` and the `lib`
+### Matching
+demomatches.tsv is a simple two column file with the word of the courses or ingredients in the first column and the Wikidata id in the next. 
+
+#### Menu building
+demodata.tsv is a bit more complex, but has each menu in the first column. Following the name of the menu is the background image and then the different colors in the color scheme for that menu that will go into the css file for the menu. On the next line and column comes the first course and in the column after that the price. On the next line and column comes the first ingredient. If the column to the right of an ingredient is used it will be showed in parentheses after the ingredient. Repeat with more ingredients and courses and menues. Looking at a file will probably make it easier to follow.
+
+## Requirements
+The menus must live in the same directory as `index.css`, `main.css`, `menu.js`, `code2langQ.json` and the `lib`
 directory.
 
-Convert the tsv files to json using something like `run(u'demodata.tsv', u'demomatches.tsv')`
+## Converting tsv to json
+Convert the tsv files to json using something like
+```python
+Python
+python
+Import tsv2json
+tsv2json.run(u'demodata.tsv', u'demomatches.tsv')
+```
 
-Then create the menu pages using `run(u'demodata.json', u'demomatches.json', u'../test')
+## Generate the menu
+Then create the menu pages using 
+Convert the tsv files to json using something like
+```python
+Python
+python
+Import tsv2json
+tsv2json.run(u'demodata.json', u'demomatches.json', u'../test')
+```
+
+## Debugging
+After running the menu generator, a file matchinfo.csv will be generated with all the courses and ingredients that could not be matched with anything in demomatches.tsv. 
