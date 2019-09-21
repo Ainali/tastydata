@@ -5,7 +5,7 @@ An automatic way is used to generate the json sources for the menus and the menu
 ### Matching
 demomatches.tsv is a simple two column file with the word of the courses or ingredients in the first column and the Wikidata id in the next. 
 
-#### Menu building
+### Menu building
 demodata.tsv is a bit more complex, but has each menu in the first column. Following the name of the menu is the background image and then the different colors in the color scheme for that menu that will go into the css file for the menu. On the next line and column comes the first course and in the column after that the price. On the next line and column comes the first ingredient. If the column to the right of an ingredient is used it will be showed in parentheses after the ingredient. Repeat with more ingredients and courses and menues. Looking at a file will probably make it easier to follow.
 
 ## Requirements
@@ -28,7 +28,7 @@ Convert the tsv files to json using something like
 Python
 python
 Import tsv2json
-tsv2json.run(u'demodata.json', u'demomatches.json', u'../test')
+generator.run(u'demodata.json', u'demomatches.json', u'../test')
 ```
 
 ## Debugging
