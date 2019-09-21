@@ -93,12 +93,10 @@ li {
 .dish-category {
     font-size: 1.5em;
     font-weight: 700;
-    text-transform: capitalize;
 }
 
 .dish {
     font-size: 1.4em;
-    text-transform: capitalize;
 }
 
 .price {
@@ -114,7 +112,6 @@ li {
 
 .ingredient {
     font-size: 1.1em;
-    text-transform: capitalize;
     padding-bottom: 1em;
 }
 
