@@ -7,10 +7,10 @@ Denny Vrandecic started a proof of concept. This tool was [adapted by](https://g
 Translations were promoted through the [Wikidata Menu Challenge](https://www.wikidata.org/wiki/Wikidata:Menu_Challenge/Wikimania_2019).
 
 ## Dependencies
-The menues are using [qlabel](https://github.com/googleknowledge/qlabel/) for getting translations for concepts from Wikidata and [Universal Language Selector](https://www.mediawiki.org/wiki/Universal_Language_Selector).
+The menues are using [qlabel](https://github.com/googleknowledge/qlabel/) for getting translations for concepts from Wikidata and [Universal Language Selector](https://www.mediawiki.org/wiki/Universal_Language_Selector) for language selection. The python scripts for the generator relies on python2.
 
 ## How to use the menu
-Go to http://aina.li/menu and click on a meal to see the menu for that meal. Chang language with the language selector. Click on an ingredient to see an image of it.
+Go to http://aina.li/menu and click on a meal to see the menu for that meal. Change language with the language selector. Click on an ingredient to see an image of it.
 
 ## Adding data and generating menues
 Is explained in [this readme](/generator/README.md).
