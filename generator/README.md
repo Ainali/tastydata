@@ -36,3 +36,6 @@ The resulting files will be generated in the folder specified in the generator c
 
 ### Debugging
 After running the menu generator, a file matchinfo.csv will be generated with all the courses and ingredients that could not be matched with anything in demomatches.tsv. 
+
+## Note
+The generator does not do matching on the index page. In this instance it was added manually after generating the files.
