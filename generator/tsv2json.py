@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8  -*-
 #
 # By: André Costa, Wikimedia Sverige
@@ -9,23 +9,21 @@
 # each field is either a string (wihtout a comma) or a
 # quoted string, with a comma
 #
+
+import os
+import sys
 import codecs
 import json
 
-qMatches = {}
-block = '  '
 
-
-def run(dataFile, matchesFile):
+def run(data_file, matches_file, directory=u'.'):
     '''
     Given a data file and an output directory generate one html+css per
     restaurant to said directory. Also generates an index page.
     '''
-    global qMatches
     # load datafile
-    f = codecs.open(dataFile, 'r', 'utf8')
-    lines = f.read().split('\n')
-    f.close()
+    with codecs.open(data_file, 'r', 'utf8') as f:
+        lines = f.read().split('\n')
 
     # do restaurant data
     rId = -1
@@ -69,16 +67,15 @@ def run(dataFile, matchesFile):
                 iData['cmt'] = '%s' % p[3]
             data[rId]['dishes'][dId]['ingredients'].append(iData.copy())
         else:
-            print 'shit!'
+            print('shit!')
 
-    f = codecs.open(u'%s.json' % dataFile[:-len('.tsv')], 'w', 'utf8')
-    f.write(json.dumps(data, indent=4, ensure_ascii=False))
-    f.close()
+    output_file = os.path.join(directory, u'%s.json' % data_file[:-len('.tsv')])
+    with codecs.open(output_file, 'w', 'utf8') as f:
+        f.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # do matches
-    f = codecs.open(matchesFile, 'r', 'utf8')
-    lines = f.read().split('\n')
-    f.close()
+    with codecs.open(matches_file, 'r', 'utf8') as f:
+        lines = f.read().split('\n')
 
     matches = {}
     for l in lines:
@@ -86,10 +83,19 @@ def run(dataFile, matchesFile):
             continue
         p = l.split('\t')
         if p[0] in matches.keys():
-            print 'duplicate word: %s' % p[0]
+            print('duplicate word: %s' % p[0])
         else:
             matches[p[0]] = p[1]
 
-    f = codecs.open(u'%s.json' % matchesFile[:-len('.tsv')], 'w', 'utf8')
-    f.write(json.dumps(matches, indent=4, ensure_ascii=False))
-    f.close()
+    output_file = os.path.join(directory, u'%s.json' % matches_file[:-len('.tsv')])
+    with codecs.open(output_file, 'w', 'utf8') as f:
+        f.write(json.dumps(matches, indent=4, ensure_ascii=False))
+
+
+if __name__ == "__main__":
+    try:
+        data_file, matches_file, dest = sys.argv[1:]
+    except ValueError:
+        print("Usage: {0} data_file matches_file destination".format(sys.argv[0]))
+        exit(1)
+    run(data_file, matches_file, dest)

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8  -*-
 #
 # By: André Costa, Wikimedia Sverige
@@ -11,6 +11,8 @@
 #
 # TODO: Add support for dish-categories
 #
+import os
+import sys
 import codecs
 import json
 
@@ -21,21 +23,19 @@ unmatched = []
 matched = []
 
 
-def run(dataFile, matchesFile, directory=u'.'):
+def run(data_file, matches_file, directory=u'.'):
     '''
     Given a data file and an output directory generate one html+css per
     restaurant to said directory. Also generates an index page.
     '''
     global qMatches
     # load datafile
-    f = codecs.open(dataFile, 'r', 'utf8')
-    data = json.load(f)
-    f.close()
+    with codecs.open(data_file, 'r', 'utf8') as f:
+        data = json.load(f)
 
     # load qMatches
-    f = codecs.open(matchesFile, 'r', 'utf8')
-    qMatches = json.load(f)
-    f.close()
+    with codecs.open(matches_file, 'r', 'utf8') as f:
+        qMatches = json.load(f)
 
     i = 0
     index = []
@@ -44,18 +44,16 @@ def run(dataFile, matchesFile, directory=u'.'):
         index.append(makeRestaurant(i, restaurantData, directory))
 
     # make html from index
-    f = codecs.open(u'%s/index.html' % directory, 'w', 'utf8')
-    f.write(makeIndex(index))
-    f.close()
+    with codecs.open(u'%s/index.html' % directory, 'w', 'utf8') as f:
+        f.write(makeIndex(index))
 
     # output matched and unmatched
     global matched, unmatched
     matched = list(set(matched))
     unmatched = list(set(unmatched))
-    f = codecs.open(u'matchinfo.csv', 'w', 'utf8')
-    f.write(u'%s\n' % '|'.join(matched))
-    f.write(u'%s' % '|'.join(unmatched))
-    f.close()
+    with codecs.open(os.path.join(directory, u'matchinfo.csv'), 'w', 'utf8') as f:
+        f.write(u'%s\n' % '|'.join(matched))
+        f.write(u'%s' % '|'.join(unmatched))
 
 
 def makeRestaurant(no, restaurantData, directory):
@@ -95,17 +93,15 @@ def makeRestaurant(no, restaurantData, directory):
     txt += outro()
 
     # output
-    f = codecs.open(u'%s/%r.html' % (directory, no), 'w', 'utf8')
-    f.write(txt)
-    f.close()
+    with codecs.open(u'%s/%r.html' % (directory, no), 'w', 'utf8') as f:
+        f.write(txt)
 
     # make css
     css = makeCss(restaurantData['colour'],
                   restaurantData['active_colour'],
                   restaurantData['bg_img'])
-    f = codecs.open(u'%s/%r.css' % (directory, no), 'w', 'utf8')
-    f.write(css)
-    f.close()
+    with codecs.open(u'%s/%r.css' % (directory, no), 'w', 'utf8') as f:
+        f.write(css)
 
     # return name for index
     return restaurantData['name']
@@ -298,3 +294,12 @@ def makeIndex(index):
   </body>
 </html>'''
     return txt
+
+
+if __name__ == "__main__":
+    try:
+        data_file, matches_file, dest = sys.argv[1:]
+    except ValueError:
+        print("Usage: {0} data_file matches_file destination".format(sys.argv[0]))
+        exit(1)
+    run(data_file, matches_file, dest)
