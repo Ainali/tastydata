@@ -21,7 +21,7 @@ unmatched = []
 matched = []
 
 
-def run(dataFile, matchesFile, directory=u'.'):
+def run(dataFile, matchesFile, directory='.'):
     '''
     Given a data file and an output directory generate one html+css per
     restaurant to said directory. Also generates an index page.
@@ -44,7 +44,7 @@ def run(dataFile, matchesFile, directory=u'.'):
         index.append(makeRestaurant(i, restaurantData, directory))
 
     # make html from index
-    f = codecs.open(u'%s/index.html' % directory, 'w', 'utf8')
+    f = codecs.open('%s/index.html' % directory, 'w', 'utf8')
     f.write(makeIndex(index))
     f.close()
 
@@ -52,9 +52,9 @@ def run(dataFile, matchesFile, directory=u'.'):
     global matched, unmatched
     matched = list(set(matched))
     unmatched = list(set(unmatched))
-    f = codecs.open(u'matchinfo.csv', 'w', 'utf8')
-    f.write(u'%s\n' % '|'.join(matched))
-    f.write(u'%s' % '|'.join(unmatched))
+    f = codecs.open('matchinfo.csv', 'w', 'utf8')
+    f.write('%s\n' % '|'.join(matched))
+    f.write('%s' % '|'.join(unmatched))
     f.close()
 
 
@@ -72,14 +72,14 @@ def makeRestaurant(no, restaurantData, directory):
     txt = intro(restaurantData['name'], no)
 
     # add title
-    txt += u'''
+    txt += '''
 %s<p class="restaurant-name"><mark>%s</mark></p>
 %s<ul class="menu flow-text">''' % (4*block, restaurantData['name'], 4*block)
     # add dishes
     txt += ''.join(dishes)
 
     # footer
-    txt += u'''
+    txt += '''
 %s</ul>
 %s</div>
 %s</div>
@@ -88,14 +88,14 @@ def makeRestaurant(no, restaurantData, directory):
 %s<br />''' % (4*block, 3*block, 2*block, 2*block, 3*block, 3*block)
 
     # add imageref
-    txt += u'''
+    txt += '''
 %sImage: <a href="https://commons.wikimedia.org/wiki/File:%s">%s</a> by %s, license: %s''' % (3*block, restaurantData['bg_img'].replace(' ', '_'), restaurantData['bg_img'], restaurantData['bg_credit'], restaurantData['bg_license'])
 
     # add outro
     txt += outro()
 
     # output
-    f = codecs.open(u'%s/%r.html' % (directory, no), 'w', 'utf8')
+    f = codecs.open('%s/%r.html' % (directory, no), 'w', 'utf8')
     f.write(txt)
     f.close()
 
@@ -103,7 +103,7 @@ def makeRestaurant(no, restaurantData, directory):
     css = makeCss(restaurantData['colour'],
                   restaurantData['active_colour'],
                   restaurantData['bg_img'])
-    f = codecs.open(u'%s/%r.css' % (directory, no), 'w', 'utf8')
+    f = codecs.open('%s/%r.css' % (directory, no), 'w', 'utf8')
     f.write(css)
     f.close()
 
@@ -121,18 +121,18 @@ def makeDish(dishData):
         ingredients.append(makeIngredient(ingredientData, indent+1))
 
     # add title (and possibly coment)
-    txt = u'\n%s<li>' % ((indent-1)*block)
-    txt += u'\n%s<p class="dish">' % (indent*block)
+    txt = '\n%s<li>' % ((indent-1)*block)
+    txt += '\n%s<p class="dish">' % (indent*block)
     txt += addQlabel(dishData['name'], indent+1)
-    if 'cmt' in dishData.keys():
+    if 'cmt' in list(dishData.keys()):
         txt += addComment(dishData['cmt'], indent+2)
 
     # add price
-    txt += u'\n%s<span class="price">%s</span>' % ((indent+1)*block, dishData['price'])
-    txt += u'\n%s</p>' % (indent*block)
+    txt += '\n%s<span class="price">%s</span>' % ((indent+1)*block, dishData['price'])
+    txt += '\n%s</p>' % (indent*block)
 
     # ingredients with wrapper
-    txt += u'''
+    txt += '''
 %s<p class="ingredient">%s
 %s</p>''' % ((indent*block), ', '.join(ingredients), (indent*block))
     # close
@@ -146,7 +146,7 @@ def makeIngredient(ingredientData, indent):
     Given an ingredient object return a formated string
     '''
     txt = addQlabel(ingredientData['name'], indent)
-    if 'cmt' in ingredientData.keys():
+    if 'cmt' in list(ingredientData.keys()):
         txt += addComment(ingredientData['cmt'], indent+1)
     return txt
 
@@ -169,19 +169,19 @@ def addQlabel(entity, indent):
     '''
     global matched, unmatched
     i = '' + indent * block
-    if entity in qMatches.keys():
+    if entity in list(qMatches.keys()):
         matched.append(qMatches[entity])
-        return u'''
+        return '''
 %s<a href="#" title="%s" data-toggle="popover" data-trigger="manual" data-placement="auto" data-content="Data not loaded yet :/" data-html="true">
 %s<span class="qlabel" its-ta-ident-ref="http://www.wikidata.org/entity/%s">%s</span></a>''' % (i, entity, (indent+1)*block, qMatches[entity], entity)
     else:
         unmatched.append(entity)
-        return u'''
+        return '''
 %s<span>%s</span>''' % (i, entity)
 
 
 def intro(name, no):
-    return u'''<!DOCTYPE html>
+    return '''<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -224,15 +224,15 @@ def intro(name, no):
 
 
 def outro():
-    return u'''
+    return '''
     </div>
   </body>
 </html>'''
 
 
 def makeCss(colour, active_colour, img):
-    img_url = u'https://commons.wikimedia.org/wiki/Special:Redirect/file?wptype=file&wpvalue=%s' % img.replace(' ', '+')
-    return u'''body{
+    img_url = 'https://commons.wikimedia.org/wiki/Special:Redirect/file?wptype=file&wpvalue=%s' % img.replace(' ', '+')
+    return '''body{
     background-image: url("%s");
 }
 
@@ -255,7 +255,7 @@ mark,
 
 
 def makeIndex(index):
-    txt = u'''<!DOCTYPE html>
+    txt = '''<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
@@ -281,12 +281,12 @@ def makeIndex(index):
         <ul class="menu flow-text">'''
 
     for i in range(0, len(index)):
-        txt += u'''
+        txt += '''
           <li>
             <p class="dish"><a href="%r.html">%r. %s</a></p>
           </li>''' % (i+1, i+1, index[i])
 
-    txt += u'''
+    txt += '''
         </ul>
       </div>
     </div>
