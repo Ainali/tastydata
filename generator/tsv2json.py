@@ -22,9 +22,8 @@ def run(data_file, matches_file, directory=u'.'):
     restaurant to said directory. Also generates an index page.
     '''
     # load datafile
-    f = codecs.open(data_file, 'r', 'utf8')
-    lines = f.read().split('\n')
-    f.close()
+    with codecs.open(data_file, 'r', 'utf8') as f:
+        lines = f.read().split('\n')
 
     # do restaurant data
     rId = -1
@@ -75,9 +74,8 @@ def run(data_file, matches_file, directory=u'.'):
         f.write(json.dumps(data, indent=4, ensure_ascii=False))
 
     # do matches
-    f = codecs.open(matches_file, 'r', 'utf8')
-    lines = f.read().split('\n')
-    f.close()
+    with codecs.open(matches_file, 'r', 'utf8') as f:
+        lines = f.read().split('\n')
 
     matches = {}
     for l in lines:
