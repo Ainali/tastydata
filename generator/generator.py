@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8  -*-
 #
 # By: André Costa, Wikimedia Sverige
@@ -11,6 +11,8 @@
 #
 # TODO: Add support for dish-categories
 #
+import os
+import sys
 import codecs
 import json
 
@@ -21,19 +23,19 @@ unmatched = []
 matched = []
 
 
-def run(dataFile, matchesFile, directory=u'.'):
+def run(data_file, matches_file, directory=u'.'):
     '''
     Given a data file and an output directory generate one html+css per
     restaurant to said directory. Also generates an index page.
     '''
     global qMatches
     # load datafile
-    f = codecs.open(dataFile, 'r', 'utf8')
+    f = codecs.open(data_file, 'r', 'utf8')
     data = json.load(f)
     f.close()
 
     # load qMatches
-    f = codecs.open(matchesFile, 'r', 'utf8')
+    f = codecs.open(matches_file, 'r', 'utf8')
     qMatches = json.load(f)
     f.close()
 
@@ -52,10 +54,9 @@ def run(dataFile, matchesFile, directory=u'.'):
     global matched, unmatched
     matched = list(set(matched))
     unmatched = list(set(unmatched))
-    f = codecs.open(u'matchinfo.csv', 'w', 'utf8')
-    f.write(u'%s\n' % '|'.join(matched))
-    f.write(u'%s' % '|'.join(unmatched))
-    f.close()
+    with codecs.open(os.path.join(directory, u'matchinfo.csv'), 'w', 'utf8') as f:
+      f.write(u'%s\n' % '|'.join(matched))
+      f.write(u'%s' % '|'.join(unmatched))
 
 
 def makeRestaurant(no, restaurantData, directory):
@@ -298,3 +299,11 @@ def makeIndex(index):
   </body>
 </html>'''
     return txt
+
+
+if __name__ == "__main__":
+    try:
+        data_file, matches_file = sys.argv[1:]
+    except ValueError:
+        print("Usage: {0} data_file matches_file".format(sys.argv[0]))
+    run(data_file, matches_file)
