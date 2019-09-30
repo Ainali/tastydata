@@ -298,7 +298,8 @@ def makeIndex(index):
 
 if __name__ == "__main__":
     try:
-        data_file, matches_file = sys.argv[1:]
+        data_file, matches_file, dest = sys.argv[1:]
     except ValueError:
-        print("Usage: {0} data_file matches_file".format(sys.argv[0]))
-    run(data_file, matches_file)
+        print("Usage: {0} data_file matches_file destination".format(sys.argv[0]))
+        exit(1)
+    run(data_file, matches_file, dest)

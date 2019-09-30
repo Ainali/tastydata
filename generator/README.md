@@ -17,18 +17,17 @@ directory.
 ## Converting tsv to json
 Convert the tsv files to json using something like
 ```bash
-python tsv2json.py demodata.tsv demomatches.tsv
+python tsv2json.py ./demodata.tsv ./demomatches.tsv .
 ```
 
 ## Generate the menu
 Then create the menu pages using
-Convert the tsv files to json using something like
 ```bash
-python generator.py demodata.json demomatches.json ../test
+python generator.py ./demodata.json ./demomatches.json .
 ```
 
 ### Result
-The resulting files will be generated in the folder specified in the generator command (it does not have to be test). It will contain an index html file and css and one html and css file for each menu with name starting at 1 and increasing (example: 1.html and 1.css).
+The resulting files will be generated in the folder specified in last parameter. It will contain an index html file and css and one html and css file for each menu with name starting at 1 and increasing (example: 1.html and 1.css).
 
 ### Debugging
 After running the menu generator, a file matchinfo.csv will be generated with all the courses and ingredients that could not be matched with anything in demomatches.tsv.
