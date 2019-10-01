@@ -69,9 +69,9 @@ def run(dataFile, matchesFile):
                 iData['cmt'] = '%s' % p[3]
             data[rId]['dishes'][dId]['ingredients'].append(iData.copy())
         else:
-            print 'shit!'
+            print('shit!')
 
-    f = codecs.open(u'%s.json' % dataFile[:-len('.tsv')], 'w', 'utf8')
+    f = codecs.open('%s.json' % dataFile[:-len('.tsv')], 'w', 'utf8')
     f.write(json.dumps(data, indent=4, ensure_ascii=False))
     f.close()
 
@@ -85,11 +85,11 @@ def run(dataFile, matchesFile):
         if len(l) == 0:
             continue
         p = l.split('\t')
-        if p[0] in matches.keys():
-            print 'duplicate word: %s' % p[0]
+        if p[0] in list(matches.keys()):
+            print('duplicate word: %s' % p[0])
         else:
             matches[p[0]] = p[1]
 
-    f = codecs.open(u'%s.json' % matchesFile[:-len('.tsv')], 'w', 'utf8')
+    f = codecs.open('%s.json' % matchesFile[:-len('.tsv')], 'w', 'utf8')
     f.write(json.dumps(matches, indent=4, ensure_ascii=False))
     f.close()
